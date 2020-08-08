@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Note Taker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.3/flatly/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="./../public/assets/css/styles.css"> -->
+  <script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+  <script>
+    function deleteNote(id){
+      console.log(id);
+      $.ajax({
+            url: '/notes/'+id,
+            type: 'DELETE',
+            success: function(result) {
+                // Do something with the result
+            }
+        });
+      
+    }
+  </script>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Note Taker
+    </a>
+    <div class="icons">
+      <i class="fas fa-save text-light save-note"></i>
+      <i class="fas fa-pen text-light new-note"></i>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col">
+          <form class="form-signin" action="/notes" method="POST" enctype="application/x-www-form-urlencoded">
+            <img class="mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Please add your note</h1>
+            <label for="inputTitle" class="sr-only">Note title</label>
+            <input type="text"  name="title" id="inputTitle" class="form-control" placeholder="Note title" required autofocus>
+            <label for="inputDescription" class="sr-only">Note Description</label>
+            <textarea name="description" id="inputDescription" class="form-control" placeholder="Note Description" required></textarea>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Save note</button>
+            <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+          </form>
+        </div>
+        <div class="col">
+          <!-- <ul>
+            <% for(var i=0; i<details.length; i++) {%>
+              <li>Title: <%= details[i].Title %> Description:  <button onclick="deleteNote()" class="btn btn-sm btn-warning">Delete</button> </li>
+            <% } %>
+          </ul> -->
+          <table class="table table-striped">
+            <% for(var i=0; i<details.length; i++) {%>
+            <tr>
+              <td>
+                <strong >Title: </strong>
+                <p><%= details[i].Title %></p>
+              </td>
+              <td>
+                <strong>Description: </strong>
+                <p>
+                  <%= details[i].Description %>
+                </p>
+              </td>
+              <td>
+                <button onclick="deleteNote(<%= details[i].Id %>)" class="btn btn-warning btn-sm">Delete note</button>
+              </td>
+            </tr>
+            <% } %>
+          </table>
+        </div>
+    </div>
+  </div>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="/assets/js/index.js"></script> -->
+</body>
+
+</html>
